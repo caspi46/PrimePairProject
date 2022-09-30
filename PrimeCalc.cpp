@@ -121,19 +121,12 @@ bool PrimeCalc::checkPrimePair(int index){
  check if the previous numbers are prime
  */
 bool PrimeCalc::checkBefores(int index){
-    int* tempPair = new int[pairNum];
     int checkBefore = index - gap;
     for (int i = 0; i < pairNum - 1; ++i){
-        if (!isPrime(checkBefore)){
-            delete[] tempPair;
-            tempPair = nullptr;
+        if (!isPrime(checkBefore))
             return false;
-        }
-        tempPair[i] = checkBefore;
         checkBefore -= gap;
     }
-    delete[] tempPair;
-    tempPair = nullptr;
     return true;
 }
 
