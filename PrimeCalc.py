@@ -1,49 +1,120 @@
 # I didn't use math library this time
 
+'''
+Class Name: PrimeC
+This class is for the prime pair calculation.
+'''
 class PrimeC:
     def __init__(self):
         self.gap = -1
-        self.num = 2
-        self.pair_n = 0
-        self.list = [ ]
-        self.pair_l = [ ]
-        self.count = 0
-        self.set_range = -1
+        self.determineNum = 2
+        self.pairNum = 0
+        self.pps = [ ]
+        self.rangeNum = -1
 
-    def isPrime(self, n):
-        for i in range(2, n):
-            if n % i == 0:
+    '''
+    Function Name: setGap
+    Parameter: None
+    Return Value: None
+    set gap variable
+    '''
+    def setGap(self):
+        self.gap = input("Enter a gap: ")
+
+    '''
+    Function Name: setPairNum
+    Parameter: None
+    Return Value: None
+    set the number of the prime numbers in the pair
+    '''
+    def setPairNum(self):
+        self.pairNum = input("Enter # of prime numbers in the pair: ")
+
+    '''
+    Function Name: setRange
+    Parameter: None
+    Return Value: None
+    set the range to calculate
+    '''
+    def setRange(self):
+        self.rangeNum = input("Enter the range to calculate: ")
+
+    '''
+    Function Name: setPrivates
+    Parameter: None 
+    Return Value: None
+    set the private variables for the calculation
+    '''
+    def setPrivates(self):
+        self.setGap()
+        self.setPairNum()
+        self.setRange()
+
+    '''
+    Function Name: isPrime
+    Parameter: int check
+    Return Value: boolean
+    check if the check variable is prime
+    '''
+    def isPrime(self, check):
+        for i in range(2, check):
+            if check % i == 0:
                 return False
         return True
 
-    def calc (self, n, p, r):
-        self.gap = n
-        self.pair_n = p
-        self.set_range = r
-        for j in range(self.num, self.set_range):
-            print("START: ", j)
-            if j - ((self.pair_n - 1) * self.gap) > 1 and self.isPrime(j) == True:
-                self.pair_l = []
-                x = 1
-                temp_n = j - self.gap
-                self.pair_l.append(j)
-                for i in range(self.pair_n - 1):
-                    print(x)
-                    if self.isPrime(temp_n) == False:
-                        break
-                    self.pair_l.append(temp_n)
-                    temp_n -= self.gap
-                    x+=1
+    '''
+    Function Name: checkPrimePair
+    Parameter: int index
+    Return Value: boolean
+    check if the index is prime and the previous number(s) with the gap exist(s)
+    '''
+    def checkPrimePair(self, index):
+        return (index - ((self.pairNum - 1) * self.gap) > 1 and self.isPrime(index))
 
-                print(self.pair_l)
-                if len(self.pair_l) == self.pair_n:
-                    self.pair_l.sort()
-                    t = tuple(self.pair_l)
-                    self.list.append(t)
+    '''
+    Function Name: checkBefores
+    Parameter: int index
+    Return Value: boolean
+    check the previous numbers (with the gap) are prime
+    '''
+    def checkBefores(self, index):
+        index -= self.gap
+        for i in range(self.pairNum - 1):
+            if not self.isPrime(index):
+                return False
+            index -= self.gap
+        return True
 
+    '''
+    Function Name: setPair
+    Parameter: int max
+    Return Value: None
+    set the prime pair into the prime pair list
+    '''
+    def setPair(self, max):
+        pp = [ ]
+        for i in range(self.pairNum):
+            pp.append(max - (self.pairNum - 1 - i) * self.gap)
+        self.pps.append(pp)
 
-    def display(self):
-        print("LIST: ", self.list)
+    '''
+    Function Name: calc
+    Parameter: None
+    Return Value: None
+    caclulate the prime pair list in the range that the user set
+    '''
+    def calc (self):
+        for i in range(self.determineNum, self.rangeNum):
+            if self.checkPrimePair(i) and self.checkBefores(i):
+                self.setPair(i)
+
+    '''
+    Function Name: checkTypePair
+    Parameter: None
+    Return Value: None
+    print out the type of the prime pair
+    '''
+    def checkTypePair(self):
         if self.gap == 2:
             print("Twin Prime:")
         elif self.gap == 4:
@@ -52,8 +123,31 @@ class PrimeC:
             print("Sexy Prime:")
         else:
             print("prime numbers with " + str(self.gap) + " gap:")
-        for i in self.list:
-            self.count += 1
+
+    '''
+    Function Name: displayCount
+    Parameter: None
+    Return Value: boolean
+    check if the prime pair(s) exist(s) in the range
+    print out the number of the prime pair 
+    '''
+    def displayCount(self):
+        if len(self.pps) == 0:
+            return False
+        print("COUNT: ", len(self.pps))
+        return True
+    '''
+    Function Name: display
+    Parameter: None
+    Return Value: None
+    Display the information
+    (type of the prime pair, the prime pair, and the number of the pair)
+    '''
+    def display(self):
+        if not self.displayCount():
+            print("NO PRIME PAIRS IN ", self.rangeNum)
+            return
+        self.checkTypePair()
+        for i in self.pps:
             print(i)
 
-        print("Number of the pair:", self.count)
