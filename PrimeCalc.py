@@ -19,7 +19,7 @@ class PrimeC:
     set gap variable
     '''
     def setGap(self):
-        self.gap = input("Enter a gap: ")
+        self.gap = int(input("Enter a gap: "))
 
     '''
     Function Name: setPairNum
@@ -28,7 +28,7 @@ class PrimeC:
     set the number of the prime numbers in the pair
     '''
     def setPairNum(self):
-        self.pairNum = input("Enter # of prime numbers in the pair: ")
+        self.pairNum = int(input("Enter # of prime numbers in the pair: "))
 
     '''
     Function Name: setRange
@@ -37,7 +37,7 @@ class PrimeC:
     set the range to calculate
     '''
     def setRange(self):
-        self.rangeNum = input("Enter the range to calculate: ")
+        self.rangeNum = int(input("Enter the range to calculate: "))
 
     '''
     Function Name: setPrivates
